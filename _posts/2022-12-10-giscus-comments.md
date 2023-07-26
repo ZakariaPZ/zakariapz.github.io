@@ -16,7 +16,7 @@ toc:
     #   - name: Example Child Subsection 2
   - name: The Standard Autoencoder
   - name: Mathematical Overview of Autoencoders
-  - name: Regularization Methods
+  # - name: Regularization Methods
   - name: Variational Autoencoders
 ---
 
