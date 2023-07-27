@@ -28,7 +28,7 @@ toc:
 
 <!-- An autoencoder is a special type of neural network architecture that learns to reconstruct its input. It consists of two components: an encoder to learn a representation of the input, and decoder to construct this representation back into the input. However, the actual architecture is a single feed-forward network, with a bottleneck layer marking the boundary between the two components.
 
- Once an input sample of dimension $$N$$ passes through the encoder, we obtain a latent representation of it that has dimensionality $$D$$. As autoencoders are tools for dimnesionality reduction, $$D \ll N$$. Subsequently, the decoder takes this latent representation and produces an output of size $$N$$, that resembles the input as closely as possible. 
+Once an input sample of dimension $$N$$ passes through the encoder, we obtain a latent representation of it that has dimensionality $$D$$. As autoencoders are tools for dimnesionality reduction, $$D \ll N$$. Subsequently, the decoder takes this latent representation and produces an output of size $$N$$, that resembles the input as closely as possible. 
 
 If the decoder is able to reconstruct the input simply using the latent representation, the latter must contain all the most relevant information about the original input. This latent representation is the bottleneck, which should (ideally) contain only the most meaningful features of the input. The intuition is simple: if you are given a single line to summarize a paragraph, you will carefully select only the most important details to include. Conversely, if you had a page for this task, fearing that you will miss important details, you might simply copy the entire paragraph.  
 
@@ -173,7 +173,6 @@ $$
          = \text{ELBO}  - D_{KL}(q_\phi(\mathbf{z}\vert\mathbf{x})\vert\vert p(\mathbf{z}\vert\mathbf{x})) 
 \end{alignat}
 $$
-
 
 The observed data does not change - $$\log(p(\mathbf{x}))$$ must be a constant. However, the terms which sum up to the log data likelihood do vary individually. If we increase one of the terms, we must decrease the others. Our objective was to minimize $$D_{KL}(q_\phi(\mathbf{z}\vert\mathbf{x})\vert\vert p(\mathbf{z}\vert\mathbf{x}))$$, but obtaining $$p(\mathbf{z}\vert\mathbf{x})$$ is difficult (which is why we are approximating it with $$q_\phi(\mathbf{z}\vert\mathbf{x})$$ in the first place). Instead, we can maximize the we named "ELBO", which \textit{is} tractable. This term is the \textbf{variational lower bound}. Given our above reasoning, maximizing the ELBO will minimize $$ D_{KL}(q_\phi(\mathbf{z}\vert\mathbf{x})\vert\vert p(\mathbf{z}\vert\mathbf{x}))$$, and we will obtain an encoder which closely approximates the true posterior distribution.
 
