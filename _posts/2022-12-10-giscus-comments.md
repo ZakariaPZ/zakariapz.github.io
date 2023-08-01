@@ -51,7 +51,7 @@ $$\mathbf{z} = f(\mathbf{x})$$
 
 The latent representation $$\mathbf{z}$$ is \textit{typically} of lower dimensionality than the original input vector $$\mathbf{x}$$.
 
-Once the input data has been compressed to the lower-dimensional representation $\mathbf{z}$, the decoder network takes this representation and maps it back to a reconstructed version $\mathbf{x'}$ of the original input:
+Once the input data has been compressed to the lower-dimensional representation $\mathbf{z}$, the decoder network takes this representation and maps it back to a reconstructed version $\mathbf{x'}$ of the original input,
 
 $$\mathbf{x'} = g(\mathbf{z})$$
 
