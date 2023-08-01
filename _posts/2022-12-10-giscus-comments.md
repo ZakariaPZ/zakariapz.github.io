@@ -89,7 +89,7 @@ There are various alternatives to the bottleneck architecture. Overcomplete auto
 ## Variational Autoecoders
 
 
-Consider the simple graphical model $$\mathbf{Z} \rightarrow \mathbf{X}$$, describing a generative process wherein a latent variable $$\mathbf{z}$$ is converted into an item of interest $$\mathbf{x}$$ (which we will treat as an image from this point onward). The variable $$\mathbf{z}$$ exists in a latent space, from which we can map to a valid datapoint in image space, \mathbf{x}. This space should be constructed such that it circumvents the issues that we previously encountered. 
+Consider the simple graphical model $$\mathbf{Z} \rightarrow \mathbf{X}$$, describing a generative process wherein a latent variable $$\mathbf{z}$$ is converted into an item of interest $$\mathbf{x}$$ (which we will treat as an image from this point onward). The variable $$\mathbf{z}$$ exists in a latent space, from which we can map to a valid datapoint in image space, $$\mathbf{x}$$. This space should be constructed such that it circumvents the issues that we previously encountered. 
 
 While $$\mathbf{x}\in \mathcal{R}^d$$ is observed, it is a product of $$\mathbf{z}\in \mathcal{R}^k$$, a latent space variable. We can't observe $$\mathbf{z}$$ (otherwise it wouldn't be latent), but it may be possible to infer it after observing its generation, $$\mathbf{x}$$. We're interested in this latent variable $$\mathbf{z}$$ because it maps to our observations $$\mathbf{x}$$. 
 
