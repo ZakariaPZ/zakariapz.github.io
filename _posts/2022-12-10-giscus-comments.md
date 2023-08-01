@@ -72,7 +72,7 @@ $$\mathcal{L}_{\text{BCE}} = -\frac{1}{n} \sum_{i=1}^{n} (\mathbf{x}_i \log(\mat
 where $$\log$$ represents the natural logarithm.
 
 ## Generation 
-Consider the space $$\mathbf{S}$$, which contains all possible images of shape $$\mathbf{H \times W}$$. Consider also the smaller subspace $$\mathbf{S_N}$$ of natural images. If we want to generate an image in $$\mathbf{S_N}$$, we have nowhere to start. What set of $$\mathbf{HW}$$ pixels will place us in this space to begin with? One can begin by randomly sampling each pixel value, but it is incredibly unlikely that all $$\mathbf{HW}$$ pixels (or even a small subset of them, for that matter) will result in anything sensible. 
+Consider the space $$\mathbf{S}$$, which contains all possible images of shape $$\mathbf{H \times W}$$. Consider also the smaller subspace $$\mathbf{S_N}$$ of natural images. If we want to generate an image in $$\mathbf{S_N}$$, where in the space could we start generating images? What set of $$\mathbf{HW}$$ pixels will place us in this space to begin with? One can begin by randomly sampling each pixel value, but it is incredibly unlikely that all $$\mathbf{HW}$$ pixels (or even a small subset of them, for that matter) will result in anything sensible. 
 
 To make the problem easier, suppose we have some way of picking a good initialization, such that we are already in $$\mathbf{S_N}$$. How do we generate another image? In other words, how do you move from one point in the subspace to another? Once again, we can use the idea of applying random perturbations to each pixel, but this unlikely to result in another valid natural image. The result will be a corrupted version of the original.
 
