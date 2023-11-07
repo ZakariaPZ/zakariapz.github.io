@@ -37,7 +37,7 @@ The final result is an image containing the desired content, but reconstructed i
     </div>
 </div>
 <div class="caption">
-    The target image is iteratively imbued with the desired style through a standard backpropagation on the image itself.
+    The target image is iteratively imbued with the desired style. Update steps are calculated by backpropagating on the image itself.
 </div>
 
 <!-- 
