@@ -4,7 +4,7 @@ title: ADMM with Diffusion Prior
 description: Deconvolving noisy images using ADMM and a diffusion denoising prior
 img: assets/img/diffusion-sweater.gif
 importance: 2
-category: work
+category: 
 ---
 
 This was my final project for CSC2529: Computational Imaging, at the University of Toronto. 

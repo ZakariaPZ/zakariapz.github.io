@@ -4,7 +4,7 @@ title: Neural Style Transfer
 description: Using learned representations to create art.
 img: assets/img/CN.gif
 importance: 1
-category: fun
+category:
 ---
 
 This project is an implementation of the paper titled [A Neural Algorithm of Artistic Styles](https://arxiv.org/abs/1508.06576), by Leon A. Gatys, Alexander S. Ecker, and Matthias Bethge. Style transfer uses representations learned by a pre-trainined network to combine the style of one image with the content of another. 
