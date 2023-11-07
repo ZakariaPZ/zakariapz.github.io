@@ -5,10 +5,9 @@ description: Using learned representations to create art.
 img: assets/img/CN.gif
 importance: 1
 category:
-bibliography: 1_project.bib
 ---
 
-This project is an implementation of Style Transfer <d-cite key="gatys2015neural"></d-cite>. Style transfer uses representations learned by a pre-trainined network to combine the style of one image with the content of another. 
+This project is an implementation of [neural style transfer](https://arxiv.org/abs/1508.06576). Style transfer uses representations learned by a pre-trainined network to combine the style of one image with the content of another. 
 
 Different layers of a deep neural network learn different features of the input image. For instance, the activation maps produced by early convolutional layers generally correspond to lower level features, while deeper layers learn high level <i>content</i> of the image.
 
