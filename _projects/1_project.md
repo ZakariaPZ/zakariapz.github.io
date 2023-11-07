@@ -5,7 +5,7 @@ description: Using learned representations to create art.
 img: assets/img/CN.gif
 importance: 1
 category:
-bibliography: project_1.bib
+bibliography: 1_project.bib
 ---
 
 This project is an implementation of the paper titled <d-cite key="gatys2015neural"></d-cite>. Style transfer uses representations learned by a pre-trainined network to combine the style of one image with the content of another. 
