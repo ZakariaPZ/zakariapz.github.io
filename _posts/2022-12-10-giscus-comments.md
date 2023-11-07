@@ -2,7 +2,7 @@
 layout: distill
 title: Variational Autoencoders
 date: 2023-05-05 11:59:00-0400
-description: Exploring generative models...
+description: Building intuition for variational autoencoders.
 giscus_comments: true
 
 authors:
