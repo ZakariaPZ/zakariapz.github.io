@@ -9,12 +9,11 @@ authors:
     - name: Zakaria Patel
 
 toc:
-  - name: Introduction
     # if a section has subsections, you can add them as follows:
     # subsections:
     #   - name: Example Child Subsection 1
     #   - name: Example Child Subsection 2
-  - name: The Standard Autoencoder
+  - name: Vanilla Autoencoders
   - name: Generation
   - name: Variational Autoencoders
   - name: Variational Inference
@@ -24,7 +23,7 @@ toc:
 
 <!-- ## Introduction -->
 
-## The Standard Autoencoder
+## Vanilla Autoencoders
 
 <!-- An autoencoder is a special type of neural network architecture that learns to reconstruct its input. It consists of two components: an encoder to learn a representation of the input, and decoder to construct this representation back into the input. However, the actual architecture is a single feed-forward network, with a bottleneck layer marking the boundary between the two components.
 
@@ -38,14 +37,11 @@ Once the autoencoder is trained, we have a system which can compress information
 
 <!-- ## Mathematical Overview of Autoencoders -->
 
+An autoencoder is a special type of neural network architecture designed to learn a compressed representation $$ \mathbf{z} $$ of an input $$ \mathbf{x} $$. Functionally, it consists of two components: an encoder to learn a representation of the input, and decoder to decode this representation back into the input. The architecture is a single feed-forward network, with a bottleneck layer partitioning the two components.
 
-An autoencoder is a special type of neural network architecture that learns to reconstruct its input. It consists of two components: an encoder to learn a representation of the input, and decoder to construct this representation back into the input. However, the actual architecture is a single feed-forward network, with a bottleneck layer marking the boundary between the two components.
+Once an input of dimension $$N$$ passes through the encoder, we obtain its latent representation of dimension $$D$$. As autoencoders are tools for dimnesionality reduction, $$D \ll N$$. Subsequently, the decoder takes this latent representation and produces an output of size $$N$$ that resembles the input as closely as possible. If the decoder is able to reconstruct the input simply using the latent representation, the latter is simply a compressed version of the input; that is, (ideally) only information relevant to reconstructing the input is present in the latent representation. 
 
-Once an input sample of dimension $$N$$ passes through the encoder, we obtain a latent representation of it that has dimensionality $$D$$. As autoencoders are tools for dimnesionality reduction, $$D \ll N$$. Subsequently, the decoder takes this latent representation and produces an output of size $$N$$, that resembles the input as closely as possible. 
-
-If the decoder is able to reconstruct the input simply using the latent representation, the latter must contain all the most relevant information about the original input. 
-
-From a mathematical perspective, the encoder can be represented as a function $$f$$ that maps an input vector $$\mathbf{x}$$ to a latent representation $$\mathbf{z}$$:
+The encoder can be represented as a function $$f$$ that maps an input vector $$\mathbf{x}$$ to a latent representation $$\mathbf{z}$$:
 
 $$\mathbf{z} = f(\mathbf{x})$$
 
@@ -88,7 +84,6 @@ There are various alternatives to the bottleneck architecture. Overcomplete auto
 
 ## Variational Autoecoders
 
-
 Consider the simple graphical model $$\mathbf{Z} \rightarrow \mathbf{X}$$, describing a generative process wherein a latent variable $$\mathbf{z}$$ is converted into an item of interest $$\mathbf{x}$$ (which we will treat as an image from this point onward). The variable $$\mathbf{z}$$ exists in a latent space, from which we can map to a valid datapoint in image space, $$\mathbf{x}$$. This space should be constructed such that it circumvents the issues that we previously encountered. 
 
 While $$\mathbf{x}\in \mathcal{R}^d$$ is observed, it is a product of $$\mathbf{z}\in \mathcal{R}^k$$, a latent space variable. We can't observe $$\mathbf{z}$$ (otherwise it wouldn't be latent), but it may be possible to infer it after observing its generation, $$\mathbf{x}$$. We're interested in this latent variable $$\mathbf{z}$$ because it maps to our observations $$\mathbf{x}$$. 
@@ -113,7 +108,6 @@ Another issue with the maximum likelihood objective is that it is possibly intra
 
 Numerical methods aren't necessarily sufficient here, either. Computing $$p(\mathbf{x})$$ involves integration over all latent variables. As such, we must consider all possible combinations of values that each latent variable can take, leading to a complexity that scales with the number of latent variables. In short, a high dimensional latent space leads to a computationally burdensome integral. So, we have reached the conclusion that computing $$p(\mathbf{x})$$ is clearly intractable. 
 
-
 We will briefly digress to reiterate how we planned to use this model in a generative capacity. We must be able to \textit{randomly} sample $$\mathbf{z}$$, and we can subsequently pass it into the decoder $$G_\theta$$ to produce a sample $$\mathbf{x'}$$. This is certainly a plausible scheme if we had some way of sampling $\mathbf{z}$. In fact, we do. We have already chosen $$p(\mathbf{z})$$ to be a Gaussian with mean $$\mathbf{\mu} = \mathbf{0}$$ and unit covariance. If $$G_\theta$$ has been trained to take latent vectors from this prior distribution and decode them into samples $$\mathbf{x'}$$, then we have a generative model.
 
 How does the decoder actually learn to map latent vectors to samples? We could ask the decoder to produce samples $$\mathbf{x'}$$ that are similar to some ground truth $$\mathbf{x}$$ based on a sampled latent vector $$\mathbf{z}$$. However, this choice of latent vector is arbitrary, as we have chosen it ourselves. We would rather let the network learn a latent space on its own, as the network can learn something which has a meaningful structure. To this end, we introduce an encoder network $$q_\phi(\mathbf{z}\vert\mathbf{x})$$ which approximates the posterior distribution $$p(\mathbf{z}\vert\mathbf{x})$$
@@ -123,7 +117,6 @@ Just like the standard autoencoder, this encoder produces a latent vector $$\mat
 ## Variational Inference
 
 The approximation $$q_\phi(\mathbf{z}\vert\mathbf{x})$$ should be as close to $$p(\mathbf{z}\vert\mathbf{x})$$ as possible. One way to determine how different two distributions are is to measure their Kullback-Leibler (KL) divergence (formally, it is not a distance metric as it is not symmetric, i.e. $$D_{KL}(p\vert\vert q) \neq D_{KL}(q\vert\vert p)$$). For a discrete distribution,
-
 
 $$
 KL(p \vert\vert q) = \sum_{c=1}^{M}p_c \log{\frac{q_c}{p_c}}
