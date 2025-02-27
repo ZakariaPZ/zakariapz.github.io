@@ -8,6 +8,8 @@ output:
     self_contained: false
 ---
 
+<a href="index.html" class="back-link">&larr; Back</a>
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 
