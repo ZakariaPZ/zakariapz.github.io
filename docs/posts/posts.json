@@ -3,17 +3,12 @@
     "path": "posts/welcome/",
     "title": "A Tutorial on Transformers",
     "description": "Read this to become an expert on transformers.",
-    "author": [
-      {
-        "name": "Zakaria Patel",
-        "url": {}
-      }
-    ],
+    "author": [],
     "date": "2025-02-26",
     "categories": [],
     "contents": "\r\n\r\n\r\n\r\n",
     "preview": {},
-    "last_modified": "2025-02-26T22:41:30-05:00",
+    "last_modified": "2025-02-27T16:19:55-05:00",
     "input_file": {}
   }
 ]

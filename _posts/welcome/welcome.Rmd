@@ -2,8 +2,6 @@
 title: "A Tutorial on Transformers"
 description: |
   Read this to become an expert on transformers.
-author:
-  - name: Zakaria Patel
 date: 02-26-2025
 output:
   distill::distill_article:
@@ -11,7 +9,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 
 # Learn more about creating blogs with Distill at:
 # https://rstudio.github.io/distill/blog.html
