@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300&display=swap');
+
+/* Center the blog content */
+.main-content {
+    max-width: 700px;
+    margin: auto;
+}
+
+/* Style the title */
+h1 {
+    font-size: 5em;
+    text-align: left;
+    line-height: 55px;
+}
+
+h1, h2, h3 {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 
+}
+
+/* Remove excess margins */
+.distill-site-header {
+    background: none !important;
+    box-shadow: none !important;
+}
+
+body {
+    background-color: #f6f2eb; 
+    color: #333; /* Dark text for readability */
+}
+
+.post-preview {
+    position: relative;
+    padding-top: 20px;
+    margin-top: 0;
+}
+
+.post-preview::before {
+    content: "";
+    display: block;
+    width: 100%;  /* Makes the line span the full width */
+    height: 1px;  /* Adjust thickness */
+    background-color: grey;  /* Adjust color */
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.back-link {
+    position: absolute;
+    top: 20px;
+    left: 10px;
+    text-decoration: none; /* Removes underline */
+    font-size: 16px;
+    font-weight: lighter;
+    color: black;
+    padding: 5px 10px;
+    border: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.back-link:hover {
+    color: gray;
+    border: none;
+}
+
+
