@@ -1,7 +1,7 @@
 ---
-title: "A Tutorial on Transformers"
+title: "Decoder-Only Transformers"
 description: |
-  Read this to become an expert on transformers.
+  A look into the architecture that powers most LLMs.
 date: 02-26-2025
 output:
   distill::distill_article:
@@ -10,6 +10,31 @@ output:
 
 <a href="http://zakariapz.github.io" class="back-link">&larr; Back</a>
 
+## Self-Attention
+
+At the core of the transformer is the attention mechanism. For each input token $x_n$, the attention mechanism aggregates information from surrounding tokens and produces a new representation $y_n$. This is known as *self-attention*, because the input sequence attends to itself to create a new representation of the same sequence. The simplest way to compute this is to take a linear combination of all the input tokens,
+
+$$
+  y_n=\sum_{m}^N a_{nm} x_m
+$$ 
+A token $x_m$ that is closely related $x_n$ should contribute a lot to the computation of $y_n$. Conversely, tokens that have very little to do with $x_n$ are unlikely to provide any interesting context. Intuitively then, $a_{nm}$ should capture how similar the tokens $x_n$ and $x_m$ are. Tokens which are closely related should have a large $a_{nm}$, while unrelated tokens should contribute close to nothing, i.e., $a_{nm} \approx 0$. This is easy to do with vectors - we can simply compute their dot product and normalize them so that no weight is negative. We also make sure they sum to a constant so they act as weights. The *Softmax* function satisfies both criteria,
+
+$$ 
+  a_{nm} = \frac{\exp\left(x_n^T x_m\right)}{\sum_m^N{\exp\left(x_n^T x_m\right)}}.
+$$
+Then, the final representation for $x_n$ is computed as follows:
+
+$$
+  y_n=\sum_{m}^N a_{nm} x_m, \quad \text{where} \ \ a_{nm}\geq0 \ \ \text{and} \ \ \sum a_{nm} = 1.
+$$
+So far, this attention mechanism has no learning capacity. We have to this point this far simply by reasoning how each input token can be better represented according to its similarity to other input tokens. However, the original representations $X$ may not be optimal for determining the nuanced relationships between different tokens. We can afford this mechanism some additional flexibility by introducing a linear transformation $Q$ that will hopefully transform each token such that their dot product reveals more interesting relationships between them, 
+
+$$ 
+  a_{nm} = \frac{\exp\left((Qx_n)^T Qx_m \right)}{\sum_m^N{\exp\left((Qx_n)^T Qx_m\right)}} \\
+  = \frac{\exp\left(x_n^T Q^TQx_m \right)}{\sum_m^N{\exp\left(x_n^T Q^TQ x_m\right)}}
+$$
+The entries of such a matrix are obviously unknown - they should be parameters learned from the data. But there's a subtle problem with using the same matrix $Q$ to transform both $x_n$ and $x_m$.
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 
@@ -17,6 +42,3 @@ knitr::opts_chunk$set(echo = FALSE)
 # https://rstudio.github.io/distill/blog.html
 
 ```
-
-
-
