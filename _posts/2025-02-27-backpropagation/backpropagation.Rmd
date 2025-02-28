@@ -1,7 +1,7 @@
 ---
 title: "Backpropagation"
 description: |
-  A short description of the post.
+  Backpropagation is very cool.
 date: 2025-02-27
 output:
   distill::distill_article:
@@ -10,11 +10,9 @@ output:
 
 <a href="http://zakariapz.github.io" class="back-link">&larr; Back</a>
 
+Something about backpropagation.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-Distill is a publication format for scientific and technical writing, native to the web.
-
-Learn more about using Distill at <https://rstudio.github.io/distill>.

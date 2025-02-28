@@ -27,13 +27,17 @@ Then, the final representation for $x_n$ is computed as follows:
 $$
   y_n=\sum_{m}^N a_{nm} x_m, \quad \text{where} \ \ a_{nm}\geq0 \ \ \text{and} \ \ \sum a_{nm} = 1.
 $$
-So far, this attention mechanism has no learning capacity. We have to this point this far simply by reasoning how each input token can be better represented according to its similarity to other input tokens. However, the original representations $X$ may not be optimal for determining the nuanced relationships between different tokens. We can afford this mechanism some additional flexibility by introducing a linear transformation $Q$ that will hopefully transform each token such that their dot product reveals more interesting relationships between them, 
-
+So far, this attention mechanism has no learning capacity. We have to this point this far simply by reasoning how each input token can be better represented according to its similarity to other input tokens. However, the original representations $X$ may not be optimal for determining the nuanced relationships between different tokens. We can afford this mechanism some flexibility by introducing a linear transformation $W^{(q)}$ that will hopefully transform each token such that their dot product reveals more interesting relationships between them, 
 $$ 
-  a_{nm} = \frac{\exp\left((Qx_n)^T Qx_m \right)}{\sum_m^N{\exp\left((Qx_n)^T Qx_m\right)}} \\
-  = \frac{\exp\left(x_n^T Q^TQx_m \right)}{\sum_m^N{\exp\left(x_n^T Q^TQ x_m\right)}}
+  a_{nm} = \frac{\exp\left((W^{(q)}x_n)^T W^{(q)}x_m \right)}{\sum_m^N{\exp\left((W^{(q)}x_n)^T W^{(q)}x_m\right)}} \\
+= \frac{\exp\left( x_n^T W^{(q)T} W^{(q)} x_m \right)}{\sum_m^N{\exp\left(x_n^T W^{(q)T} W^{(q)} x_m\right)}}.
 $$
-The entries of such a matrix are obviously unknown - they should be parameters learned from the data. But there's a subtle problem with using the same matrix $Q$ to transform both $x_n$ and $x_m$.
+The entries of such a matrix are obviously unknown - they should be parameters learned from the data. But there's a subtle problem with using the same matrix $Q$ to transform both $x_n$ and $x_m$. The matrix product $W^{(q)T} W^{(q)}$ is symmetric (because $(W^{(q)T} W^{(q)})^T = W^{(q)T} W^{(q)}$), so $x_n^T W^{(q)T} W^{(q)} x_m = x_m^T W^{(q)T} W^{(q)} x_n$ and therefore $a_{nm}=a_{mn}$. This is not ideal, because the relationship between tokens is not necessarily symmetric. We can introduce another matrix $W^{(k)T} W^{(k)}$ to project the all other tokens $x_m$,
+
+$$
+  a_{nm} = \frac{\exp\left((W^{(q)}x_n)^T W^{(k)}x_m \right)}{\sum_m^N{\exp\left((W^{(q)}x_n)^T W^{(k)}x_m\right)}}
+$$
+The matrix $W^{(q)}$ is known as the *query matrix*, and $W^{(k)}$ is known as the *key matrix*. One way to think about them is like this: the query matrix distills from the token $x_n$ a question, or query, $q_n=W^{(q)}x_n$ that this token can ask about the other tokens $x_m$, while the key matrix distills an answer, or a key, $k_m=W^{(k)}x_m$ from each of the remaining tokens $x_m$. The inner product between these the query and key reveals which tokens $x_m$ contain information relevant to building a richer representation for $x_n$.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
