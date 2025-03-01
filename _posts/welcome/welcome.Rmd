@@ -27,17 +27,40 @@ Then, the final representation for $x_n$ is computed as follows:
 $$
   y_n=\sum_{m}^N a_{nm} x_m, \quad \text{where} \ \ a_{nm}\geq0 \ \ \text{and} \ \ \sum a_{nm} = 1.
 $$
-So far, this attention mechanism has no learning capacity. We have to this point this far simply by reasoning how each input token can be better represented according to its similarity to other input tokens. However, the original representations $X$ may not be optimal for determining the nuanced relationships between different tokens. We can afford this mechanism some flexibility by introducing a linear transformation $W^{(q)}$ that will hopefully transform each token such that their dot product reveals more interesting relationships between them, 
+So far, this attention mechanism has no learning capacity. We have gotten to this point simply by reasoning about how each input token can be better represented according to its similarity to other input tokens. However, the original representations $X$ may not be optimal for determining the nuanced relationships between different tokens. We can afford this mechanism some flexibility by introducing a linear transformation $W^{(q)} \in \mathbb{R}^{D\times D_q}$ that will hopefully transform each token such that their dot product reveals more interesting relationships between them, 
 $$ 
   a_{nm} = \frac{\exp\left((W^{(q)}x_n)^T W^{(q)}x_m \right)}{\sum_m^N{\exp\left((W^{(q)}x_n)^T W^{(q)}x_m\right)}} \\
 = \frac{\exp\left( x_n^T W^{(q)T} W^{(q)} x_m \right)}{\sum_m^N{\exp\left(x_n^T W^{(q)T} W^{(q)} x_m\right)}}.
 $$
-The entries of such a matrix are obviously unknown - they should be parameters learned from the data. But there's a subtle problem with using the same matrix $Q$ to transform both $x_n$ and $x_m$. The matrix product $W^{(q)T} W^{(q)}$ is symmetric (because $(W^{(q)T} W^{(q)})^T = W^{(q)T} W^{(q)}$), so $x_n^T W^{(q)T} W^{(q)} x_m = x_m^T W^{(q)T} W^{(q)} x_n$ and therefore $a_{nm}=a_{mn}$. This is not ideal, because the relationship between tokens is not necessarily symmetric. We can introduce another matrix $W^{(k)T} W^{(k)}$ to project the all other tokens $x_m$,
+The entries of such a matrix are obviously unknown - they should be parameters learned from the data. But there's a subtle problem with using the same matrix $W^{(q)}$ to transform both $x_n$ and $x_m$. The matrix product $W^{(q)T} W^{(q)}$ is symmetric, so
+
+$$
+  x_n^T W^{(q)T} W^{(q)} x_m = x_m^T W^{(q)T} W^{(q)} x_n,
+$$
+
+and therefore $a_{nm}=a_{mn}$. This is not ideal, because the relationship between tokens is not necessarily symmetric. We can introduce another matrix $W^{(k)} \in \mathbb{R}^{D\times D_k}$ to project all other tokens $x_m$,
 
 $$
   a_{nm} = \frac{\exp\left((W^{(q)}x_n)^T W^{(k)}x_m \right)}{\sum_m^N{\exp\left((W^{(q)}x_n)^T W^{(k)}x_m\right)}}
 $$
-The matrix $W^{(q)}$ is known as the *query matrix*, and $W^{(k)}$ is known as the *key matrix*. One way to think about them is like this: the query matrix distills from the token $x_n$ a question, or query, $q_n=W^{(q)}x_n$ that this token can ask about the other tokens $x_m$, while the key matrix distills an answer, or a key, $k_m=W^{(k)}x_m$ from each of the remaining tokens $x_m$. The inner product between these the query and key reveals which tokens $x_m$ contain information relevant to building a richer representation for $x_n$.
+The matrix $W^{(q)}$ is known as the *query matrix*, and $W^{(k)}$ is known as the *key matrix*. One way to think about them is like this: the query matrix distills from the token $x_n$ a question, or query, $q_n=W^{(q)}x_n$ that this token can ask about the other tokens $x_m$, while the key matrix distills an answer, or a key, $k_m=W^{(k)}x_m$ from each of the remaining tokens $x_m$. The inner product between these the query and key reveals which tokens $x_m$ contain information relevant to building a richer representation for $x_n$. 
+
+In practice, these projections are computed in parallel as the matrix products $Q = XW^{(q)}$ and $K = XW^{(k)}$. We can express the attention mechanism so that it computes all the attention weights at once using matrices, rather than obtaining the weights $a_{nm}$ for each query-key pair individually. This is how it would be implemented, after all, as it takes advantage of the parallelism of a GPU.
+
+![Multiplying $X\in\mathbb{R}^{N\times D}$ and $W^{(q)}\in\mathbb{R}^{D\times D_q}$ produces the matrix $Q\in\mathbb{R}^{N\times D_q}$. Every token $\mathbf{x}_i$ (i.e., every row in $X$) is transformed into a new vector $\mathbf{q}_n$ of length $D_q$. We can view this transformation as taking a linear combination of the rows of $W^{(q)}$, where each entry $\{x_1, x_2, \dots, x_D\}$ are the coefficients.](images/Projection.png)
+
+Now we have a matrix $Q$, of dimensions $N \times D_q$, containing the "queries" that each of the $N$ tokens would like to ask every other token, and the matrix $K$, of dimensions $N \times D_k$, containing the "key" or "answer" to each of these queries. We want to multiply these two matrices to end up with an $N \times N$ (the first $N$ representing the sequence of queries along the row dimension, and the second $N$ representing the sequence of keys along the column dimension) matrix whose $nm$th entry that tells us how closely related the $n$th query is to the $m$th key. To do this, we choose $D_k = D_q$, and then compute $QK^T$. 
+
+![](images/Attention.png)
+The values in row $n$ of $QK^T$ correspond to how closely associated a query $q_n$ is to the each of the keys $k_m$. As before, these values are normalized using a row-wise Softmax so that they are non-negative and sum to one:
+
+$$
+  A = \text{Softmax}\left(\frac{QK^T}{\sqrt{D_q}}\right).
+$$
+The scaling factor $\sqrt{D_q}$ prevents extreme values in the Softmax, improving numerical stability. The resulting matrix $A$ is the *attention matrix* containing the attention weights $A_{nm}$. 
+
+![](images/Attention_Y.png)
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
