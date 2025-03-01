@@ -57,9 +57,11 @@ The values in row $n$ of $QK^T$ correspond to how closely associated a query $q_
 $$
   A = \text{Softmax}\left(\frac{QK^T}{\sqrt{D_q}}\right).
 $$
-The scaling factor $\sqrt{D_q}$ prevents extreme values in the Softmax, improving numerical stability. The resulting matrix $A$ is the *attention matrix* containing the attention weights $A_{nm}$. 
+The scaling factor $\sqrt{D_q}$ prevents extreme values in the Softmax, improving numerical stability. The resulting matrix $A$ is the *attention matrix* containing the attention weights $A_{nm}$. To obtain the new representation $Y$, we can use these weights to take linear combinations of the input tokens, $Y=AX$. However, as before, rather than using the input tokens directly, we can allow the neural network some flexibility by introducing another weight matrix, $W^{(v)}$, and linearly transforming the input tokens to a more suitable representation, $V=XW^{(v)}$. The matrix $V$ surfaces the relevant information, or values, from each input token, which is then combined via the attention weights. For this reason, $W^{(v)}$ is known as the *value matrix*. 
 
 ![](images/Attention_Y.png)
+
+## Multi-Head Attention
 
 
 ```{r setup, include=FALSE}

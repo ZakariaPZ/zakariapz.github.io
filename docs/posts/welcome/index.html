@@ -1649,8 +1649,9 @@ The values in row <span class="math inline">\(n\)</span> of <span class="math in
 <p><span class="math display">\[
   A = \text{Softmax}\left(\frac{QK^T}{\sqrt{D_q}}\right).
 \]</span>
-The scaling factor <span class="math inline">\(\sqrt{D_q}\)</span> prevents extreme values in the Softmax, improving numerical stability. The resulting matrix <span class="math inline">\(A\)</span> is the <em>attention matrix</em> containing the attention weights <span class="math inline">\(A_{nm}\)</span>.</p>
+The scaling factor <span class="math inline">\(\sqrt{D_q}\)</span> prevents extreme values in the Softmax, improving numerical stability. The resulting matrix <span class="math inline">\(A\)</span> is the <em>attention matrix</em> containing the attention weights <span class="math inline">\(A_{nm}\)</span>. To obtain the new representation <span class="math inline">\(Y\)</span>, we can use these weights to take linear combinations of the input tokens, <span class="math inline">\(Y=AX\)</span>. However, as before, rather than using the input tokens directly, we can allow the neural network some flexibility by introducing another weight matrix, <span class="math inline">\(W^{(v)}\)</span>, and linearly transforming the input tokens to a more suitable representation, <span class="math inline">\(V=XW^{(v)}\)</span>. The matrix <span class="math inline">\(V\)</span> surfaces the relevant information, or values, from each input token, which is then combined via the attention weights. For this reason, <span class="math inline">\(W^{(v)}\)</span> is known as the <em>value matrix</em>.</p>
 <p><img src="images/Attention_Y.png" /></p>
+<h2 id="multi-head-attention">Multi-Head Attention</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
