@@ -49,7 +49,7 @@ In practice, these projections are computed in parallel as the matrix products $
 
 ![Multiplying $X\in\mathbb{R}^{N\times D}$ and $W^{(q)}\in\mathbb{R}^{D\times D_q}$ produces the matrix $Q\in\mathbb{R}^{N\times D_q}$. Every token $\mathbf{x}_i$ (i.e., every row in $X$) is transformed into a new vector $\mathbf{q}_n$ of length $D_q$. We can view this transformation as taking a linear combination of the rows of $W^{(q)}$, where each entry $\{x_1, x_2, \dots, x_D\}$ are the coefficients.](images/Projection.png)
 
-Now we have a matrix $Q$, of dimensions $N \times D_q$, containing the "queries" that each of the $N$ tokens would like to ask every other token, and the matrix $K$, of dimensions $N \times D_k$, containing the "key" or "answer" to each of these queries. We want to multiply these two matrices to end up with an $N \times N$ (the first $N$ representing the sequence of queries along the row dimension, and the second $N$ representing the sequence of keys along the column dimension) matrix whose $nm$th entry that tells us how closely related the $n$th query is to the $m$th key. To do this, we choose $D_k = D_q$, and then compute $QK^T$. 
+Now we have a matrix $Q$, of dimensions $N \times D_q$, containing the "queries" that each of the $N$ tokens would like to ask every other token, and the matrix $K$, of dimensions $N \times D_k$, containing the "key" or "answer" to each of these queries. Notice that there is no communcation between tokens yet - each token was indepedently transformed into a query and a key. We want to multiply the query and key matricest together to end up with an $N \times N$ matrix (the first $N$ representing the sequence of queries along the row dimension, and the second $N$ representing the sequence of keys along the column dimension) whose $nm$th entry that tells us how closely related the $n$th query is to the $m$th key. To do this, we choose $D_k = D_q$, and then compute $QK^T$. 
 
 ![](images/Attention.png)
 The values in row $n$ of $QK^T$ correspond to how closely associated a query $q_n$ is to the each of the keys $k_m$. As before, these values are normalized using a row-wise Softmax so that they are non-negative and sum to one:
@@ -57,11 +57,16 @@ The values in row $n$ of $QK^T$ correspond to how closely associated a query $q_
 $$
   A = \text{Softmax}\left(\frac{QK^T}{\sqrt{D_q}}\right).
 $$
-The scaling factor $\sqrt{D_q}$ prevents extreme values in the Softmax, improving numerical stability. The resulting matrix $A$ is the *attention matrix* containing the attention weights $A_{nm}$. To obtain the new representation $Y$, we can use these weights to take linear combinations of the input tokens, $Y=AX$. However, as before, rather than using the input tokens directly, we can allow the neural network some flexibility by introducing another weight matrix, $W^{(v)}$, and linearly transforming the input tokens to a more suitable representation, $V=XW^{(v)}$. The matrix $V$ surfaces the relevant information, or values, from each input token, which is then combined via the attention weights. For this reason, $W^{(v)}$ is known as the *value matrix*. 
+The scaling factor $\sqrt{D_q}$ is the standard deviation of the dot product between the query and key vectors (as each element in these vectors is assumed to come from a normal distribution with unit variance). Dividing by this scaling factor prevents the Softmax distribution from becoming too sharp. 
+
+The resulting matrix $A$ is the *attention matrix* containing the attention weights $a_{nm}$. To obtain the new representation $Y$, we can use these weights to take linear combinations of the input tokens, $Y=AX$. However, as before, rather than using the input tokens directly, we can allow the neural network some flexibility by introducing another weight matrix, $W^{(v)}$, and linearly transform the input tokens to a more suitable representation, $V=XW^{(v)}$. The matrix $V$ surfaces the relevant information, or values, from each input token, which are then combined via the attention weights. For this reason, $W^{(v)}$ is known as the *value matrix*. 
 
 ![](images/Attention_Y.png)
 
+At this point, the tokens are finally communicating with one another. The resulting row vectors in $Y$ are new representations of the input tokens $X$, with each row vector $y_n$ being an aggregate of all tokens, weighted by the attention weights. If $a_{nm}$ is small, the $m^{\text{th}}$ token contributes little to $y_n$; if large, it plays a significant role.
+
 ## Multi-Head Attention
+
 
 
 ```{r setup, include=FALSE}
