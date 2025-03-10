@@ -69,7 +69,15 @@ At this point, the tokens are finally communicating with one another. The result
 
 ## Multi-Head Attention
 
+So far, we've used a single "head" of attention; that is, only we only capture correlations between different tokens once during the self-attention computation. To detect multiple relationships between inputs, we can introduce *multi-head attention* to independently perform self-attention $h$ times, where  $h$ is the number of heads. 
 
+To do this, the input tokens $\mathbf{x}$ are project from dimension $D$ to $D_{\text{head}}\times h$ using the query, key and value matrices, as opposed to the arbitrary dimensions $D_q$, $D_k$, or $D_v$. The projected vectors now contain $h$ heads, each of dimension $D_{\text{head}}$. 
+
+![When computing the query vectors, each row $\mathbf{x}_n$ becomes $\mathbf{q}_{n}$ as before, but this time the query contains $h$ segments $\mathbf{q^{(i)}_n}$, where $i \in \{1, \dots, h\}$. The same process applies to the keys and values.](images/MHA.png)
+
+To process the $h$ heads independently and in parallel, they are moved along their own dimension. So, the query, key and value matrices go from shape $N \times (D_{\text{head}}h)$ to $h\times N \times D_\text{head}$. From this point forward, the self-attention mechanism is identical to when we had a single head, with the only difference being that we have multiple heads along a batch-like dimension (samples in a batch are independent from one another, and are typically processed in parallel on a GPU). We can then compute the attention matrix $A$ for the $i$th head by multiplying $Q^{(i)}$ and $K^{(i)T}$. In practice, all $h$ heads are processed in parallel by doing a batch matrix multiplication $QK^T$, which results in a $h \times N \times N$ tensor $A$. Ideally, each of these heads will capture different relationships between the input. It's possible that the entry $a_{nm}^{(i)}$ (which describes how closely related the query $q_{n}^{(i)}$ is to the key $k_{m}^{(i)}$) is large, but $a_{nm}^{(j)}$ is small because the $j$th head attends to different qualities in the input than the $i$th head. 
+ 
+![](images/MHA_batch.png)
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
