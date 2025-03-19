@@ -1623,7 +1623,7 @@ Assuming the correct label is <span class="math inline">\(y_c\)</span>, all othe
 <p><span class="math display">\[
   \frac{\partial L}{\partial p_j} = -\frac{\partial}{\partial p_j} \left(y_c \log p_c \right).
 \]</span>
-If <span class="math inline">\(j\neq c\)</span>, the gradient is zero because <span class="math inline">\(y_c=0\)</span>. For a training example <span class="math inline">\(x_n\)</span> where the true class is <span class="math inline">\(c\)</span>, only the Softmax probability <span class="math inline">\(p_c\)</span> contributes to the loss as only <span class="math inline">\(y_c=1\)</span> and all other <span class="math inline">\(p_{j\neq c}\)</span> are removed as <span class="math inline">\(y_{j \neq c} = 0\)</span>.</p>
+If <span class="math inline">\(j\neq c\)</span>, the contribution to the gradient is zero because <span class="math inline">\(y_j=0\)</span>. For a training example <span class="math inline">\(x_n\)</span> where the true class is <span class="math inline">\(c\)</span>, only the Softmax probability <span class="math inline">\(p_c\)</span> contributes to the loss as only <span class="math inline">\(y_c=1\)</span> and all other <span class="math inline">\(p_{j\neq c}\)</span> are removed as <span class="math inline">\(y_{j \neq c} = 0\)</span>.</p>
 <p>Otherwise, when <span class="math inline">\(j = c\)</span>,
 <span class="math display">\[
   \frac{\partial L}{\partial p_c} = -\frac{\partial}{\partial p_c} \left(y_c \log p_c \right) \\
@@ -1653,7 +1653,7 @@ And if <span class="math inline">\(i \neq j\)</span>,</p>
 <span class="math display">\[
   \frac{\partial p_j}{\partial a_i} = p_j(\delta_{ij} -p_i).
 \]</span></p>
-<p>However, we know from before that if <span class="math inline">\(j \neq c\)</span>, the gradient is zero. So, we can set <span class="math inline">\(j=c\)</span> and substitute the expressions for each term in the chain rule to get the final derivative,</p>
+<p>However, we know from before that terms with <span class="math inline">\(j \neq c\)</span> are zero. So, we can set <span class="math inline">\(j=c\)</span> and substitute the expressions for each term in the chain rule to get the final derivative,</p>
 <p><span class="math display">\[
   \frac{\partial L}{\partial a_i} = \frac{\partial L}{\partial p_j} \frac{\partial p_j}{\partial a_i} \\
    = -\frac{y_c}{p_c} p_c(\delta_{ic} - p_i) \\
