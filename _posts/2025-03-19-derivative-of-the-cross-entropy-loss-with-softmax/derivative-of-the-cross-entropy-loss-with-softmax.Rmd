@@ -27,7 +27,7 @@ Assuming the correct label is $y_c$, all other elements $y_{i\neq c}$ are zero, 
 $$
   \frac{\partial L}{\partial p_j} = -\frac{\partial}{\partial p_j} \left(y_c \log p_c \right). 
 $$ 
-If $j\neq c$, the contribution to the gradient is zero because $y_c=0$. For a training example $x_n$ where the true class is $c$, only the Softmax probability $p_c$ contributes to the loss as only $y_c=1$ and all other $p_{j\neq c}$ are removed as $y_{j \neq c} = 0$.
+If $j\neq c$, the contribution to the gradient is zero because $y_j=0$. For a training example $x_n$ where the true class is $c$, only the Softmax probability $p_c$ contributes to the loss as only $y_c=1$ and all other $p_{j\neq c}$ are removed as $y_{j \neq c} = 0$.
 
 Otherwise, when $j = c$,
 $$
