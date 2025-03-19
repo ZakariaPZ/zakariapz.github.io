@@ -1,0 +1,39 @@
+---
+title: "Derivative of the Cross Entropy Loss With Softmax"
+description: |
+  A short description of the post.
+date: 2025-03-19
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+To compute the derivative $\frac{\partial L}{\partial a_i}$, we first rewrite the derivative using the chain rule,
+
+$$
+  \frac{\partial L}{\partial a_i} = \frac{\partial L}{\partial p_j} \frac{\partial p_j}{\partial a_i}
+$$
+Here, we've used $p_j$ to denote the $j$th entry of the Softmax output, which is a vector of $C$ elements (one per class),
+
+$$
+  p_j = \frac{\exp( a_j)}{\sum_k^C \exp(a_k)}
+$$
+Starting with the first term in the chain rule,
+
+$$
+  \frac{\partial L}{\partial p_j} = \frac{\partial}{\partial p_j} \left( -\sum_i^C y_i \log p_i \right).
+$$ 
+Assuming the correct label is $y_c$, all other elements $y_{i\neq c}$ are zero, so we obtain the following expression:
+
+$$
+  \frac{\partial L}{\partial p_j} = -\frac{\partial}{\partial p_j} \left(y_c \log p_c \right). 
+$$ 
+If $j\neq c$, the gradient is zero. Otherwise,
+
+$$
+  \frac{\partial L}{\partial p_c} = -\frac{\partial}{\partial p_c} \left(y_c \log p_c \right).\\
+  = -\frac{y_c}{p_c}
+$$ 
+
+
