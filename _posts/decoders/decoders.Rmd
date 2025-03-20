@@ -78,7 +78,9 @@ To do this, the input tokens $\mathbf{x}$ are project from dimension $D$ to $D_{
 To process the $h$ heads independently and in parallel, they are moved along their own dimension. So, the query, key and value matrices go from shape $N \times (D_{\text{head}}h)$ to $h\times N \times D_\text{head}$. From this point forward, the self-attention mechanism is identical to when we had a single head, with the only difference being that we have multiple heads along a batch-like dimension (samples in a batch are independent from one another, and are typically processed in parallel on a GPU). We can then compute the attention matrix $A$ for the $i$th head by multiplying $Q^{(i)}$ and $K^{(i)T}$. In practice, all $h$ heads are processed in parallel by doing a batch matrix multiplication $QK^T$, which results in a $h \times N \times N$ tensor $A$. Ideally, each of these heads will capture different relationships between the input. It's possible that the entry $a_{nm}^{(i)}$ (which describes how closely related the query $\mathbf{q}_{n}^{(i)}$ is to the key $\mathbf{k}_{m}^{(i)}$) is large, but $a_{nm}^{(j)}$ is small because the $j$th head attends to different qualities in the input than the $i$th head. 
  
 ![](images/MHA_batch.png)
+Finally, we complete Multi-head attention by applying Softmax.
 
+Both $A$ and $V$ 
 
 
 ```{r setup, include=FALSE}

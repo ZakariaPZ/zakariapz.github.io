@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["derivative-of-the-cross-entropy-loss-with-softmax_files/anchor-4.2.2/anchor.min.js","derivative-of-the-cross-entropy-loss-with-softmax_files/bowser-1.9.3/bowser.min.js","derivative-of-the-cross-entropy-loss-with-softmax_files/distill-2.2.21/template.v2.js","derivative-of-the-cross-entropy-loss-with-softmax_files/header-attrs-2.29/header-attrs.js","derivative-of-the-cross-entropy-loss-with-softmax_files/jquery-3.6.0/jquery-3.6.0.js","derivative-of-the-cross-entropy-loss-with-softmax_files/jquery-3.6.0/jquery-3.6.0.min.js","derivative-of-the-cross-entropy-loss-with-softmax_files/jquery-3.6.0/jquery-3.6.0.min.map","derivative-of-the-cross-entropy-loss-with-softmax_files/popper-2.6.0/popper.min.js","derivative-of-the-cross-entropy-loss-with-softmax_files/tippy-6.2.7/tippy-bundle.umd.min.js","derivative-of-the-cross-entropy-loss-with-softmax_files/tippy-6.2.7/tippy-light-border.css","derivative-of-the-cross-entropy-loss-with-softmax_files/tippy-6.2.7/tippy.css","derivative-of-the-cross-entropy-loss-with-softmax_files/tippy-6.2.7/tippy.umd.min.js","derivative-of-the-cross-entropy-loss-with-softmax_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["derivative-of-the-cross-entropy-loss-with-softmax_files/anchor-4.2.2/anchor.min.js","derivative-of-the-cross-entropy-loss-with-softmax_files/bowser-1.9.3/bowser.min.js","derivative-of-the-cross-entropy-loss-with-softmax_files/distill-2.2.21/template.v2.js","derivative-of-the-cross-entropy-loss-with-softmax_files/header-attrs-2.29/header-attrs.js","derivative-of-the-cross-entropy-loss-with-softmax_files/jquery-3.6.0/jquery-3.6.0.js","derivative-of-the-cross-entropy-loss-with-softmax_files/jquery-3.6.0/jquery-3.6.0.min.js","derivative-of-the-cross-entropy-loss-with-softmax_files/jquery-3.6.0/jquery-3.6.0.min.map","derivative-of-the-cross-entropy-loss-with-softmax_files/popper-2.6.0/popper.min.js","derivative-of-the-cross-entropy-loss-with-softmax_files/tippy-6.2.7/tippy-bundle.umd.min.js","derivative-of-the-cross-entropy-loss-with-softmax_files/tippy-6.2.7/tippy-light-border.css","derivative-of-the-cross-entropy-loss-with-softmax_files/tippy-6.2.7/tippy.css","derivative-of-the-cross-entropy-loss-with-softmax_files/tippy-6.2.7/tippy.umd.min.js","derivative-of-the-cross-entropy-loss-with-softmax_files/webcomponents-2.0.0/webcomponents.js","images/Softmax.png"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <!--/radix_placeholder_navigation_in_header-->
@@ -1607,27 +1607,23 @@ body {
 
 
 <div class="d-article">
-<p>To compute the derivative <span class="math inline">\(\frac{\partial L}{\partial a_i}\)</span>, we first rewrite the derivative using the chain rule,</p>
+<p>The cross entropy loss is defined as follows:</p>
 <p><span class="math display">\[
-  \frac{\partial L}{\partial a_i} = \frac{\partial L}{\partial p_j} \frac{\partial p_j}{\partial a_i}.
+  L = -\sum_j^C y_j \log p_j \\
+  = -\sum_j^C \ell_j.
 \]</span>
-Here, we’ve used <span class="math inline">\(p_j\)</span> to denote the <span class="math inline">\(j\)</span>th entry of the Softmax output, which is a vector of <span class="math inline">\(C\)</span> elements (one per class),</p>
+Here, we’ve used <span class="math inline">\(p_j\)</span> to denote the <span class="math inline">\(j\)</span>th entry of the Softmax output,</p>
 <p><span class="math display">\[
   p_j = \frac{\exp( a_j)}{\sum_k^C \exp(a_k)}.
 \]</span>
+To compute the derivative <span class="math inline">\(\frac{\partial L}{\partial a_i}\)</span>, we first rewrite the derivative using the chain rule,</p>
+<p><span class="math display">\[
+  \frac{\partial L}{\partial a_i} = -\sum_j^C \frac{\partial \ell_j}{\partial p_j} \frac{\partial p_j}{\partial a_i}.
+\]</span>
 Starting with the first term in the chain rule,</p>
 <p><span class="math display">\[
-  \frac{\partial L}{\partial p_j} = \frac{\partial}{\partial p_j} \left( -\sum_i^C y_i \log p_i \right).
-\]</span>
-Assuming the correct label is <span class="math inline">\(y_c\)</span>, all other elements <span class="math inline">\(y_{i\neq c}\)</span> are zero, so we obtain the following expression:</p>
-<p><span class="math display">\[
-  \frac{\partial L}{\partial p_j} = -\frac{\partial}{\partial p_j} \left(y_c \log p_c \right).
-\]</span>
-If <span class="math inline">\(j\neq c\)</span>, the contribution to the gradient is zero because <span class="math inline">\(y_j=0\)</span>. For a training example <span class="math inline">\(x_n\)</span> where the true class is <span class="math inline">\(c\)</span>, only the Softmax probability <span class="math inline">\(p_c\)</span> contributes to the loss as only <span class="math inline">\(y_c=1\)</span> and all other <span class="math inline">\(p_{j\neq c}\)</span> are removed as <span class="math inline">\(y_{j \neq c} = 0\)</span>.</p>
-<p>Otherwise, when <span class="math inline">\(j = c\)</span>,
-<span class="math display">\[
-  \frac{\partial L}{\partial p_c} = -\frac{\partial}{\partial p_c} \left(y_c \log p_c \right) \\
-  = -\frac{y_c}{p_c}.
+  \frac{\partial \ell_j}{\partial p_j} = \frac{\partial}{\partial p_j} \left( - y_j \log p_j \right) \\
+   = -\frac{y_j}{p_j}.
 \]</span>
 Next, we compute the second term of the chain rule,</p>
 <p><span class="math display">\[
@@ -1653,13 +1649,17 @@ And if <span class="math inline">\(i \neq j\)</span>,</p>
 <span class="math display">\[
   \frac{\partial p_j}{\partial a_i} = p_j(\delta_{ij} -p_i).
 \]</span></p>
-<p>However, we know from before that terms with <span class="math inline">\(j \neq c\)</span> are zero. So, we can set <span class="math inline">\(j=c\)</span> and substitute the expressions for each term in the chain rule to get the final derivative,</p>
+<p>So, we can substitute the expressions for each term in the chain rule to get the final derivative,</p>
 <p><span class="math display">\[
-  \frac{\partial L}{\partial a_i} = \frac{\partial L}{\partial p_j} \frac{\partial p_j}{\partial a_i} \\
-   = -\frac{y_c}{p_c} p_c(\delta_{ic} - p_i) \\
-   = p_i - y_c \delta_{ic}.
+  \frac{\partial L}{\partial a_i} = \sum_j^C \frac{\partial \ell_j}{\partial p_j} \frac{\partial p_j}{\partial a_i} \\
+   =  \sum_j^C -\frac{y_j}{p_j} p_j(\delta_{ij} - p_i) \\
+   =  \sum_j^C y_j (p_i -\delta_{ij}).
 \]</span>
-The gradient is <span class="math inline">\(p_i\)</span> if <span class="math inline">\(i \neq c\)</span>, and <span class="math inline">\(p_c-y_c\)</span> if <span class="math inline">\(i=c\)</span>. Since <span class="math inline">\(y\)</span> is a one-hot vector with <span class="math inline">\(y_{i=c}=1\)</span> and <span class="math inline">\(y_{i\neq c}=0\)</span>, we can simply write,</p>
+Suppose the true class occurs at index <span class="math inline">\(j=c\)</span>. Since <span class="math inline">\(y\)</span> is a one-hot vector, terms of the sum where <span class="math inline">\(j \neq c\)</span> are zero since <span class="math inline">\(y_{j\neq c}=0\)</span>, and when <span class="math inline">\(j=c\)</span> we have <span class="math inline">\(y_c = 1\)</span>:</p>
+<p><span class="math display">\[
+  \frac{\partial L}{\partial a_i} = p_i - y_c \delta_{ic}.
+\]</span>
+The gradient is <span class="math inline">\(p_i\)</span> if <span class="math inline">\(i\neq c\)</span>, and <span class="math inline">\(p_c - y_c\)</span> (where <span class="math inline">\(y_c=1\)</span>) if <span class="math inline">\(i = c\)</span>. But <span class="math inline">\(y_i = 0\)</span> when <span class="math inline">\(i\neq c\)</span> and <span class="math inline">\(y_i=1\)</span> when <span class="math inline">\(i=c\)</span>, so we can simply write,</p>
 <p><span class="math display">\[
   \frac{\partial L}{\partial a_i} = p_i - y_i.
 \]</span></p>

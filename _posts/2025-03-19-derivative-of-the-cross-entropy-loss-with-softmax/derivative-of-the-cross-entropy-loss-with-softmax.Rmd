@@ -6,33 +6,27 @@ output:
     self_contained: false
 ---
 
-
-To compute the derivative $\frac{\partial L}{\partial a_i}$, we first rewrite the derivative using the chain rule,
+The cross entropy loss is defined as follows:
 
 $$
-  \frac{\partial L}{\partial a_i} = \frac{\partial L}{\partial p_j} \frac{\partial p_j}{\partial a_i}.
+  L = -\sum_j^C y_j \log p_j \\
+  = -\sum_j^C \ell_j.
 $$
-Here, we've used $p_j$ to denote the $j$th entry of the Softmax output, which is a vector of $C$ elements (one per class),
+Here, we've used $p_j$ to denote the $j$th entry of the Softmax output,
 
 $$
   p_j = \frac{\exp( a_j)}{\sum_k^C \exp(a_k)}.
 $$
+To compute the derivative $\frac{\partial L}{\partial a_i}$, we first rewrite the derivative using the chain rule,
+
+$$
+  \frac{\partial L}{\partial a_i} = -\sum_j^C \frac{\partial \ell_j}{\partial p_j} \frac{\partial p_j}{\partial a_i}.
+$$
 Starting with the first term in the chain rule,
 
 $$
-  \frac{\partial L}{\partial p_j} = \frac{\partial}{\partial p_j} \left( -\sum_i^C y_i \log p_i \right).
-$$ 
-Assuming the correct label is $y_c$, all other elements $y_{i\neq c}$ are zero, so we obtain the following expression:
-
-$$
-  \frac{\partial L}{\partial p_j} = -\frac{\partial}{\partial p_j} \left(y_c \log p_c \right). 
-$$ 
-If $j\neq c$, the contribution to the gradient is zero because $y_j=0$. For a training example $x_n$ where the true class is $c$, only the Softmax probability $p_c$ contributes to the loss as only $y_c=1$ and all other $p_{j\neq c}$ are removed as $y_{j \neq c} = 0$.
-
-Otherwise, when $j = c$,
-$$
-  \frac{\partial L}{\partial p_c} = -\frac{\partial}{\partial p_c} \left(y_c \log p_c \right) \\
-  = -\frac{y_c}{p_c}.
+  \frac{\partial \ell_j}{\partial p_j} = \frac{\partial}{\partial p_j} \left( - y_j \log p_j \right) \\
+   = -\frac{y_j}{p_j}.
 $$ 
 Next, we compute the second term of the chain rule,
 
@@ -63,17 +57,21 @@ $$
   \frac{\partial p_j}{\partial a_i} = p_j(\delta_{ij} -p_i).
 $$
 
-However, we know from before that terms with $j \neq c$ are zero. So, we can set $j=c$ and substitute the expressions for each term in the chain rule to get the final derivative,
+So, we can substitute the expressions for each term in the chain rule to get the final derivative,
 
 $$
-  \frac{\partial L}{\partial a_i} = \frac{\partial L}{\partial p_j} \frac{\partial p_j}{\partial a_i} \\
-   = -\frac{y_c}{p_c} p_c(\delta_{ic} - p_i) \\
-   = p_i - y_c \delta_{ic}.
+  \frac{\partial L}{\partial a_i} = \sum_j^C \frac{\partial \ell_j}{\partial p_j} \frac{\partial p_j}{\partial a_i} \\
+   =  \sum_j^C -\frac{y_j}{p_j} p_j(\delta_{ij} - p_i) \\
+   =  \sum_j^C y_j (p_i -\delta_{ij}). 
 $$
-The gradient is $p_i$ if $i \neq c$, and $p_c-y_c$ if $i=c$. Since $y$ is a one-hot vector with $y_{i=c}=1$ and $y_{i\neq c}=0$, we can simply write, 
+Suppose the true class occurs at index $j=c$. Since $y$ is a one-hot vector, terms of the sum where $j \neq c$ are zero since $y_{j\neq c}=0$, and when $j=c$ we have $y_c = 1$:
+
+$$
+  \frac{\partial L}{\partial a_i} = p_i - y_c \delta_{ic}.
+$$
+The gradient is $p_i$ if $i\neq c$, and $p_c - y_c$ (where $y_c=1$) if $i = c$. But $y_i = 0$ when $i\neq c$ and $y_i=1$ when $i=c$, so we can simply write,
 
 $$
   \frac{\partial L}{\partial a_i} = p_i - y_i.
 $$
-
 
