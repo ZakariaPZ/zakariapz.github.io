@@ -1540,7 +1540,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-article">
 <p><a href="http://zakariapz.github.io" class="back-link">← Back</a></p>
-<p>Note: This blog is incomplete. I’m actively working on writing the remaining sections. For now, here’s a short section on <em>self-attention</em>.</p>
+<p>Note: This post is incomplete. I’m actively working on writing the remaining sections. For now, here’s are two short sections on <em>self-attention</em> and <em>multi-head attention</em>.</p>
 <h2 id="self-attention">Self-Attention</h2>
 <p>At the core of the transformer is the attention mechanism. For each input token <span class="math inline">\(\mathbf{x}_n\)</span>, the attention mechanism aggregates information from surrounding tokens and produces a new representation <span class="math inline">\(\mathbf{y}_n\)</span>. This is known as <em>self-attention</em>, because the input sequence attends to itself to create a new representation of the same sequence. The simplest way to compute this is to take a linear combination of all the input tokens,</p>
 <p><span class="math display">\[
