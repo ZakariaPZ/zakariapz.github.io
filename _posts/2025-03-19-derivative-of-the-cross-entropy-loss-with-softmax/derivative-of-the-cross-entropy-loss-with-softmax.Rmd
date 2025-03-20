@@ -1,12 +1,13 @@
 ---
-title: "Derivative of the Cross Entropy Loss With Softmax"
+title: "Derivative of the Cross-Entropy Loss"
 date: 2025-03-19
+description: A quick derivation of the CE loss with a Softmax activation.
 output:
   distill::distill_article:
     self_contained: false
 ---
 
-The cross entropy loss is defined as follows:
+The cross-entropy loss is defined as follows:
 
 $$
   L = -\sum_j^C y_j \log p_j \\
@@ -64,7 +65,7 @@ $$
    =  \sum_j^C -\frac{y_j}{p_j} p_j(\delta_{ij} - p_i) \\
    =  \sum_j^C y_j (p_i -\delta_{ij}). 
 $$
-Suppose the true class occurs at index $j=c$. Since $y$ is a one-hot vector, terms of the sum where $j \neq c$ are zero since $y_{j\neq c}=0$, and when $j=c$ we have $y_c = 1$:
+Suppose the true class label occurs at index $j=c$. Since $y$ is a one-hot vector, terms of the sum where $j \neq c$ are zero since $y_{j\neq c}=0$, and when $j=c$ we have $y_c = 1$:
 
 $$
   \frac{\partial L}{\partial a_i} = p_i - y_c \delta_{ic}.

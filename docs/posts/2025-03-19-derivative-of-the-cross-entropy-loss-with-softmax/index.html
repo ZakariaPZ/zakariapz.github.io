@@ -88,8 +88,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   <!--radix_placeholder_meta_tags-->
-<title>Zakaria Patel: Derivative of the Cross Entropy Loss With Softmax</title>
+<title>Zakaria Patel: Derivative of the Cross-Entropy Loss</title>
 
+<meta property="description" itemprop="description" content="A quick derivation of the CE loss with a Softmax activation."/>
 
 
 <!--  https://schema.org/Article -->
@@ -97,25 +98,27 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <meta property="article:created" itemprop="dateCreated" content="2025-03-19"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-<meta property="og:title" content="Zakaria Patel: Derivative of the Cross Entropy Loss With Softmax"/>
+<meta property="og:title" content="Zakaria Patel: Derivative of the Cross-Entropy Loss"/>
 <meta property="og:type" content="article"/>
+<meta property="og:description" content="A quick derivation of the CE loss with a Softmax activation."/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:site_name" content="Zakaria Patel"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
 <meta property="twitter:card" content="summary"/>
-<meta property="twitter:title" content="Zakaria Patel: Derivative of the Cross Entropy Loss With Softmax"/>
+<meta property="twitter:title" content="Zakaria Patel: Derivative of the Cross-Entropy Loss"/>
+<meta property="twitter:description" content="A quick derivation of the CE loss with a Softmax activation."/>
 
 <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Derivative of the Cross Entropy Loss With Softmax"]},{"type":"character","attributes":{},"value":["2025-03-19"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","date","description","output"]}},"value":[{"type":"character","attributes":{},"value":["Derivative of the Cross-Entropy Loss"]},{"type":"character","attributes":{},"value":["2025-03-19"]},{"type":"character","attributes":{},"value":["A quick derivation of the CE loss with a Softmax activation."]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["derivative-of-the-cross-entropy-loss-with-softmax_files/anchor-4.2.2/anchor.min.js","derivative-of-the-cross-entropy-loss-with-softmax_files/bowser-1.9.3/bowser.min.js","derivative-of-the-cross-entropy-loss-with-softmax_files/distill-2.2.21/template.v2.js","derivative-of-the-cross-entropy-loss-with-softmax_files/header-attrs-2.29/header-attrs.js","derivative-of-the-cross-entropy-loss-with-softmax_files/jquery-3.6.0/jquery-3.6.0.js","derivative-of-the-cross-entropy-loss-with-softmax_files/jquery-3.6.0/jquery-3.6.0.min.js","derivative-of-the-cross-entropy-loss-with-softmax_files/jquery-3.6.0/jquery-3.6.0.min.map","derivative-of-the-cross-entropy-loss-with-softmax_files/popper-2.6.0/popper.min.js","derivative-of-the-cross-entropy-loss-with-softmax_files/tippy-6.2.7/tippy-bundle.umd.min.js","derivative-of-the-cross-entropy-loss-with-softmax_files/tippy-6.2.7/tippy-light-border.css","derivative-of-the-cross-entropy-loss-with-softmax_files/tippy-6.2.7/tippy.css","derivative-of-the-cross-entropy-loss-with-softmax_files/tippy-6.2.7/tippy.umd.min.js","derivative-of-the-cross-entropy-loss-with-softmax_files/webcomponents-2.0.0/webcomponents.js","images/Softmax.png"]}
+  {"type":"character","attributes":{},"value":["derivative-of-the-cross-entropy-loss-with-softmax_files/anchor-4.2.2/anchor.min.js","derivative-of-the-cross-entropy-loss-with-softmax_files/bowser-1.9.3/bowser.min.js","derivative-of-the-cross-entropy-loss-with-softmax_files/distill-2.2.21/template.v2.js","derivative-of-the-cross-entropy-loss-with-softmax_files/header-attrs-2.29/header-attrs.js","derivative-of-the-cross-entropy-loss-with-softmax_files/jquery-3.6.0/jquery-3.6.0.js","derivative-of-the-cross-entropy-loss-with-softmax_files/jquery-3.6.0/jquery-3.6.0.min.js","derivative-of-the-cross-entropy-loss-with-softmax_files/jquery-3.6.0/jquery-3.6.0.min.map","derivative-of-the-cross-entropy-loss-with-softmax_files/popper-2.6.0/popper.min.js","derivative-of-the-cross-entropy-loss-with-softmax_files/tippy-6.2.7/tippy-bundle.umd.min.js","derivative-of-the-cross-entropy-loss-with-softmax_files/tippy-6.2.7/tippy-light-border.css","derivative-of-the-cross-entropy-loss-with-softmax_files/tippy-6.2.7/tippy.css","derivative-of-the-cross-entropy-loss-with-softmax_files/tippy-6.2.7/tippy.umd.min.js","derivative-of-the-cross-entropy-loss-with-softmax_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <!--/radix_placeholder_navigation_in_header-->
@@ -1588,7 +1591,7 @@ body {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Derivative of the Cross Entropy Loss With Softmax","authors":[],"publishedDate":"2025-03-19T00:00:00.000-04:00"}
+{"title":"Derivative of the Cross-Entropy Loss","description":"A quick derivation of the CE loss with a Softmax activation.","authors":[],"publishedDate":"2025-03-19T00:00:00.000-04:00"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1598,16 +1601,16 @@ body {
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Derivative of the Cross Entropy Loss With Softmax</h1>
+<h1>Derivative of the Cross-Entropy Loss</h1>
 
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-
+<p>A quick derivation of the CE loss with a Softmax activation.</p>
 </div>
 
 
 <div class="d-article">
-<p>The cross entropy loss is defined as follows:</p>
+<p>The cross-entropy loss is defined as follows:</p>
 <p><span class="math display">\[
   L = -\sum_j^C y_j \log p_j \\
   = -\sum_j^C \ell_j.
@@ -1655,7 +1658,7 @@ And if <span class="math inline">\(i \neq j\)</span>,</p>
    =  \sum_j^C -\frac{y_j}{p_j} p_j(\delta_{ij} - p_i) \\
    =  \sum_j^C y_j (p_i -\delta_{ij}).
 \]</span>
-Suppose the true class occurs at index <span class="math inline">\(j=c\)</span>. Since <span class="math inline">\(y\)</span> is a one-hot vector, terms of the sum where <span class="math inline">\(j \neq c\)</span> are zero since <span class="math inline">\(y_{j\neq c}=0\)</span>, and when <span class="math inline">\(j=c\)</span> we have <span class="math inline">\(y_c = 1\)</span>:</p>
+Suppose the true class label occurs at index <span class="math inline">\(j=c\)</span>. Since <span class="math inline">\(y\)</span> is a one-hot vector, terms of the sum where <span class="math inline">\(j \neq c\)</span> are zero since <span class="math inline">\(y_{j\neq c}=0\)</span>, and when <span class="math inline">\(j=c\)</span> we have <span class="math inline">\(y_c = 1\)</span>:</p>
 <p><span class="math display">\[
   \frac{\partial L}{\partial a_i} = p_i - y_c \delta_{ic}.
 \]</span>
