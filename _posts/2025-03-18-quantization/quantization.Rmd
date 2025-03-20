@@ -8,6 +8,8 @@ output:
     self_contained: false
 ---
 
+<a href="http://zakariapz.github.io" class="back-link">&larr; Back</a>
+
 Note: This post is incomplete. I'm actively working on writing the remaining sections.
 
 The success of modern neural networks is partly owed to their massive scale. This is particularly true in areas like generative AI, where models often contain billions - or even hundreds of billions - of parameters. Given their size, these models are largely inaccessible on consumer-grade hardware and challenging to deploy cost-effectively in production environments. 
